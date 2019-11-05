@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.gina.dao.cnPredictResultDao">
+    <select id="selectTheMostByDateCn" parameterType="Date" resultType="com.gina.model.AnnPredictResult" >
+        select * from ann_predict_cn where trade_date=#{trade_date}  order by result desc limit 1
+    </select>
+    <select id="selectResultBySymbol" parameterType="String" resultType="com.gina.model.AnnPredictResult" >
+        select * from ann_predict_cn where symbol=#{symbol}  order by trade_date desc limit 1
+    </select>
+    <select id="selectResultBySymbolAll" parameterType="String" resultType="com.gina.model.AnnPredictResult" >
+        select * from ann_predict_cn where symbol=#{symbol}  order by trade_date desc
+    </select>
+    <select id="selectTop6ByDateCn" parameterType="Date" resultType="com.gina.model.AnnPredictResult" >
+        select * from ann_predict_cn where trade_date=#{trade_date} order by result desc limit 6
+    </select>
+    <select id="selectTop10ByDateCn" parameterType="Date" resultType="com.gina.model.AnnPredictResult" >
+        select * from ann_predict_cn where trade_date=#{trade_date} order by result desc limit 10
+    </select>
+    <select id="selectTheMostOneLatest" resultType="com.gina.model.AnnPredictResult">
+        select * from ann_predict_cn where trade_date=(select max(trade_date) from ann_predict_cn) order by result desc limit 1;
+    </select>
+    <select id="selectTop6Latest" resultType="com.gina.model.AnnPredictResult">
+        select * from ann_predict_cn where trade_date=(select max(trade_date) from ann_predict_cn) order by result desc limit 6;
+    </select>
+    <select id="selectTopNLatest" parameterType="int" resultType="com.gina.model.AnnPredictResult">
+        select * from ann_predict_cn where trade_date=(select max(trade_date) from ann_predict_cn) order by result desc limit #{num};
+    </select>
+    <select id="selectTradeDateLast6" resultType="java.sql.Date">
+        select trade_date from ann_predict_cn group by trade_date order by trade_date desc limit 6;
+    </select>
+    <select id="selectTradeDateLast10" resultType="java.sql.Date">
+        select trade_date from ann_predict_cn group by trade_date order by trade_date desc limit 10;
+    </select>
+    <select id="selectTop15highscoures" resultType="com.gina.model.AnnPredictResult">
+        select * from ann_predict_cn order by result desc limit 15;
+    </select>
+    <select id="selectTop25highscoures" resultType="com.gina.model.AnnPredictResult">
+        select * from ann_predict_cn order by result desc limit 25;
+    </select>
+</mapper>

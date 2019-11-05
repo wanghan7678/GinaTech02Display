@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.gina.dao.usStockDailyDao">
+    <select id="selectLast60BySymbol" parameterType="String" resultType="com.gina.model.UsStockDaily">
+        select * from data_usstock_daily where symbol=#{symbol} order by trade_date desc limit 60
+    </select>     
+    <select id="selectLast30BySymbol" parameterType="String" resultType="com.gina.model.UsStockDaily">
+        select * from data_usstock_daily where symbol=#{symbol} order by trade_date desc limit 30
+    </select>  
+    <select id="selectTradeDateClose" parameterType="com.gina.model.AnnPredictResult" resultType="float">
+        select close from data_usstock_daily where symbol=#{symbol} and trade_date=#{trade_date}
+    </select> 
+    <select id="selectTradeDateLast2Close" resultType="float">
+        select close from data_usstock_daily where symbol=#{symbol} and trade_date&lt;=#{trade_date} order by trade_date desc limit 2
+    </select>     
+    <select id="selectDayCountsToToday" parameterType="com.gina.model.AnnPredictResult" resultType="int">
+        select count(id) from data_usstock_daily where symbol=#{symbol} and trade_date &gt;=#{trade_date}
+    </select>
+    <select id="selectTodayClose" parameterType="String" resultType="float">
+        select close from data_usstock_daily where symbol=#{symbol} order by trade_date desc limit 1
+    </select>
+    <select id="selectDataOrderDesc" resultType="com.gina.model.UsStockDaily">
+        select * from data_usstock_daily where symbol=#{symbol} order by trade_date desc limit ${periods}
+    </select>
+    <select id="selectLast1BySymbol" parameterType="String" resultType="com.gina.model.UsStockDaily">
+        select * from data_usstock_daily where symbol=#{symbol} order by trade_date desc limit 1
+    </select> 
+    <select id="select6DaysAfterClose" resultType="float">
+        select close from data_usstock_daily where symbol=#{symbol} and trade_date>=#{trade_date} order by trade_date
+    </select>
+</mapper>
